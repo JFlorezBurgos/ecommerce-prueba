@@ -1,4 +1,6 @@
-# ecommerce-prueba
+# Ecommerce-prueba
+
+Aplicación web desarrollada con Vue.js 3, Vue Router, Vuex, Tailwind CSS, Flowbite y FontAwesome. Ofrece una experiencia de usuario intuitiva para explorar productos y realizar compras. Aunque simple, la aplicación es receptiva y fácil de usar en diferentes dispositivos. Debido a restricciones de tiempo, no se implementaron media queries.
 
 ## Project setup
 ```
