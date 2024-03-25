@@ -1,7 +1,7 @@
 import { default } from '../../Product.vue';
 <template>
     <div
-        class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 hover:drop-shadow-2xl">
+        class=" bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 hover:drop-shadow-2xl">
         <router-link :to="`/Products/${product.id}`" class="flex justify-center">
             <img class="p-2 rounded-t-lg product-image" :src="product.thumbnail" :alt="product.title" />
         </router-link>
@@ -13,6 +13,13 @@ import { default } from '../../Product.vue';
                 <h5 class="text-xs font-semibold tracking-tight text-gray-900 dark:text-white">{{
             product.discountPercentage + '%' }}</h5>
             </a>
+
+            <div class="flex items-center">
+                <!-- Agrega las estrellas según la calificación del producto -->
+                <div v-html="getStarIcons(product.rating)" class="flex items-center"></div>
+            </div>
+
+            
             <div class="flex items-center justify-between">
                 <span class="text-xl font-bold text-gray-900 dark:text-white">{{ '$' + product.price }}</span>
                 <button @click="addToCartClicked"
@@ -20,10 +27,7 @@ import { default } from '../../Product.vue';
                     to cart</button>
             </div>
 
-            <div class="flex items-center">
-                <!-- Agrega las estrellas según la calificación del producto -->
-                <div v-html="getStarIcons(product.rating)" class="flex items-center"></div>
-            </div>
+            
         </div>
     </div>
 </template>

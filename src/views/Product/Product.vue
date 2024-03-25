@@ -2,11 +2,11 @@
     <div class="container mx-auto p-6" v-if="product">
         <div class="flex flex-col md:flex-row">
             <!-- Imágenes del producto -->
-            <div class="md:w-1/2">
+            <div class="w-fit">
                 <img :src="selectedImage" alt="Product Thumbnail" class="w-full rounded-lg mb-4 main-image">
-                <div class="flex justify-center space-x-4">
+                <div class="flex justify-center space-x-4 pb-10">
                     <img v-for="(image, index) in product.images" :src="image" :key="index" alt="Product Image"
-                        class="w-20 rounded-lg cursor-pointer hover:shadow-2xl" @click="updateSelectedImage(image)">
+                        class="border-4 w-16  md:w-30 rounded-lg cursor-pointer hover:shadow-2xl" @click="updateSelectedImage(image)">
                 </div>
             </div>
             <!-- Detalles del producto -->
