@@ -1,150 +1,151 @@
 <template>
-  <div class="pt-10 hidden lg:block">
+  <div class="flex justify-center lg:absolute  lg:pl-44 ">
+    <div v-if="showSuccessMessage"
+      class="flex fixed bottom-0  items-center p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400"
+      role="alert">
+      <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+        fill="currentColor" viewBox="0 0 20 20">
+        <path
+          d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+      </svg>
+      <span class="sr-only">Info</span>
+      <div class="success-message">
+        <span class="font-medium">¡Producto agregado al carrito con éxito!</span>
+      </div>
+    </div>
+  </div>
 
+  <div class="pt-28 hidden lg:block ">
     <aside id="sidebar-multi-level-sidebar"
-      class="absolute  bg-slate-200 pt-5 pb-20  rounded-xl m-2 left-2 z-40 w-72 h-max transition-transform -translate-x-full sm:translate-x-0"
+      class="fixed bg-slate-200 pt-5 pb-20  rounded-xl m-2 left-5  w-72 h-max transition-transform -translate-x-full sm:translate-x-0"
       aria-label="Sidebar">
-
       <div class="flex gap-4 flex-wrap justify-center">
         <!-- Filtro por categoría -->
-   
-
- 
         <select v-model="selectedCategory" @change="filterProducts" class="p-2 border rounded-xl">
           <option value="">Todas las categorías</option>
           <option v-for="category in categories" :value="category">{{ category }}</option>
         </select>
-
         <!-- Filtro por marca -->
-
         <select v-model="brandFilter" @change="updateCategoryByBrand" class="p-2 border rounded-xl "
           style="width: 200px;">
           <option value="">Todas las Marcas</option>
           <option v-for="brand in brands" :value="brand">{{ brand }}</option>
         </select>
-
         <!-- Filtro por precio -->
         <input v-model.number="minPrice" type="number" placeholder="Precio mínimo" class="p-2 border rounded-xl">
         <input v-model.number="maxPrice" type="number" placeholder="Precio máximo" class="p-2 border rounded-xl">
-
         <!-- Filtro por porcentaje de descuento -->
         <input v-model.number="minDiscount" type="number" placeholder="Descuento mínimo (%)"
           class="p-2 border rounded-xl">
-
-
         <!-- Filtro por Calificacion -->
         <input v-model.number="minRating" type="number" min="0" max="5" step="0.1" placeholder="Calificación"
           class="p-2 border rounded-xl " style="width: 200px;">
-
         <!-- Filtro por stock disponible -->
         <input v-model.number="minStock" type="number" placeholder="Stock mínimo" class="p-2 border rounded-xl">
-
-   
-          <button @click="resetFilters"  class="p-2 text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800">Reajustar</button>
-       
+        <button @click="resetFilters"
+          class="p-2 text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800">Reajustar</button>
       </div>
- 
-     
-     
-
-
     </aside>
-
   </div>
 
   <!-- Menu Mobile -->
 
+  <div>
+    <div class="bg-violet-200 flex justify-around lg:hidden fixed top-16 w-screen">
+      <div class="flex items-center  hover:bg-violet-400 cursor-pointer">
+        <button type="button" class="p-5" data-collapse-toggle="navbar-categories" aria-controls="navbar-categories"
+          aria-expanded="false">
+          <font-awesome-icon :icon="['fas', 'bars']" />
+          Categorías</button>
+      </div>
+      <div class="flex items-center hover:bg-violet-400 cursor-pointer">
+        <button type="button" class="p-5" data-collapse-toggle="navbar-filters" aria-controls="navbar-filters"
+          aria-expanded="false">
+          <font-awesome-icon :icon="['fas', 'sliders']" />
+          Filtros
+        </button>
+      </div>
 
-  <div class="bg-violet-200 flex justify-around lg:hidden">
-    <div class="flex items-center gap-1">
-      <button type="button" data-collapse-toggle="navbar-categories" aria-controls="navbar-categories"
-        aria-expanded="false">
-        <font-awesome-icon :icon="['fas', 'bars']" />
-        Categorías</button>
     </div>
-    <div class="flex items-center gap-1">
-      <button type="button" data-collapse-toggle="navbar-filters" aria-controls="navbar-filters" aria-expanded="false">
-        <font-awesome-icon :icon="['fas', 'sliders']" />
-        Filtros
-      </button>
+
+    <!-- MENU MOBILE CATEGORIAS -->
+    <div class="hidden lg:hidden fixed top-0 bg-violet-100 h-screen w-full p-5" id="navbar-categories">
+      <button aria-expanded="true" aria-controls="navbar-categories" type="button"
+        data-collapse-toggle="navbar-categories"><font-awesome-icon :icon="['fas', 'xmark']" /></button>
+      <!-- Filtro categorias mobile -->
+      <div class="py-3" v-for="category in categories" :key="category">
+        <ul>
+          <li>
+            <button @click="selectCategory(category)">{{ category }}</button>
+          </li>
+        </ul>
+      </div>
     </div>
 
-  </div>
-
-  <!-- MENU MOBILE CATEGORIAS -->
-  <div class="hidden lg:hidden fixed top-0 bg-violet-100 h-screen w-full p-5" id="navbar-categories">
-    <button aria-expanded="true" aria-controls="navbar-categories" type="button"
-      data-collapse-toggle="navbar-categories"><font-awesome-icon :icon="['fas', 'xmark']" /></button>
-    <!-- Filtro categorias mobile -->
-    <div class="py-3" v-for="category in categories" :key="category">
-      <ul>
-        <li>
-          <button @click="selectCategory(category)">{{ category }}</button>
-        </li>
-      </ul>
-    </div>
-  </div>
-
-  <!-- MENU MOBILE FILTROS -->
-  <div class="hidden lg:hidden fixed top-0 bg-violet-100 h-screen w-full p-5" id="navbar-filters">
-    <div class="flex justify-between">
-      <button aria-expanded="true" aria-controls="navbar-filters" type="button"
-        data-collapse-toggle="navbar-filters"><font-awesome-icon :icon="['fas', 'xmark']" /></button>
-      <div class="space-x-2">
-        <button @click="resetFilters"><font-awesome-icon :icon="['fas', 'arrow-rotate-left']" />Reajustar</button>
+    <!-- MENU MOBILE FILTROS -->
+    <div class="hidden lg:hidden fixed top-0 bg-violet-100 h-screen w-full p-5" id="navbar-filters">
+      <div class="flex justify-between">
         <button aria-expanded="true" aria-controls="navbar-filters" type="button"
-          data-collapse-toggle="navbar-filters"><font-awesome-icon :icon="['fas', 'check']" />Listo</button>
-      </div>
-    </div>
-    <!-- Filtro categorias mobile -->
-    <div class="py-5 space-y-5">
-      <!-- MARCA -->
-      <div class="select-brand">
-        <p class="font-semibold pb-2">Marca</p>
-        <select v-model="brandFilter" @change="updateCategoryByBrand" class="p-2 border rounded-xl w-full">
-          <option value="">Todas las Marcas</option>
-          <option v-for="brand in brands" :value="brand">{{ brand }}</option>
-        </select>
-      </div>
-      <!-- PRECIO -->
-      <div class="space-y-5">
-        <div class="flex flex-col">
-          <p class="font-semibold pb-2">Precio Mínimo</p>
-          <input v-model.number="minPrice" type="number" placeholder="Precio mínimo" class="w-fit border rounded-xl">
-        </div>
-        <div class="flex flex-col">
-          <p class="font-semibold pb-2">Precio Máximo</p>
-          <input v-model.number="maxPrice" type="number" placeholder="Precio máximo" class="w-fit border rounded-xl">
+          data-collapse-toggle="navbar-filters"><font-awesome-icon :icon="['fas', 'xmark']" /></button>
+        <div class="space-x-2">
+          <button @click="resetFilters"><font-awesome-icon :icon="['fas', 'arrow-rotate-left']" />Reajustar</button>
+          <button aria-expanded="true" aria-controls="navbar-filters" type="button"
+            data-collapse-toggle="navbar-filters"><font-awesome-icon :icon="['fas', 'check']" />Listo</button>
         </div>
       </div>
+      <!-- Filtro categorias mobile -->
+      <div class="py-5 space-y-5">
+        <!-- MARCA -->
+        <div class="select-brand">
+          <p class="font-semibold pb-2">Marca</p>
+          <select v-model="brandFilter" @change="updateCategoryByBrand" class="p-2 border rounded-xl w-full">
+            <option value="">Todas las Marcas</option>
+            <option v-for="brand in brands" :value="brand">{{ brand }}</option>
+          </select>
+        </div>
+        <!-- PRECIO -->
+        <div class="space-y-5">
+          <div class="flex flex-col">
+            <p class="font-semibold pb-2">Precio Mínimo</p>
+            <input v-model.number="minPrice" type="number" placeholder="Precio mínimo" class="w-fit border rounded-xl">
+          </div>
+          <div class="flex flex-col">
+            <p class="font-semibold pb-2">Precio Máximo</p>
+            <input v-model.number="maxPrice" type="number" placeholder="Precio máximo" class="w-fit border rounded-xl">
+          </div>
+        </div>
 
-      <!-- Descuento -->
-      <div class="space-y-5">
-        <div class="flex flex-col">
-          <p class="font-semibold pb-2">Descuento mínimo</p>
-          <input v-model.number="minDiscount" type="number" placeholder="Descuento mínimo (%)"
-            class="p-2 border rounded-xl w-fit">
+        <!-- Descuento -->
+        <div class="space-y-5">
+          <div class="flex flex-col">
+            <p class="font-semibold pb-2">Descuento mínimo</p>
+            <input v-model.number="minDiscount" type="number" placeholder="Descuento mínimo (%)"
+              class="p-2 border rounded-xl w-fit">
+          </div>
         </div>
-      </div>
-      <!-- Calificacion -->
-      <div class="space-y-5">
-        <div class="flex flex-col">
-          <p class="font-semibold pb-2">Calificación</p>
-          <input v-model.number="minRating" type="number" min="0" max="5" step="0.1" placeholder="Calificación"
-            class="p-2 border rounded-xl " style="width: 200px;">
+        <!-- Calificacion -->
+        <div class="space-y-5">
+          <div class="flex flex-col">
+            <p class="font-semibold pb-2">Calificación</p>
+            <input v-model.number="minRating" type="number" min="0" max="5" step="0.1" placeholder="Calificación"
+              class="p-2 border rounded-xl " style="width: 200px;">
+          </div>
         </div>
-      </div>
-      <!-- Stock Minimo -->
-      <div class="">
-        <div class="flex flex-col">
-          <p class="font-semibold pb-2">Stock mínimo</p>
-          <input v-model.number="minStock" type="number" placeholder="Stock mínimo" class="p-2 border rounded-xl w-fit">
+        <!-- Stock Minimo -->
+        <div class="">
+          <div class="flex flex-col">
+            <p class="font-semibold pb-2">Stock mínimo</p>
+            <input v-model.number="minStock" type="number" placeholder="Stock mínimo"
+              class="p-2 border rounded-xl w-fit">
+          </div>
         </div>
       </div>
     </div>
   </div>
 
-  <div class=" lg:ml-64 lg:pl-20 mt-4">
+  <!-- GET PRODUCTS -->
+
+  <div class=" lg:ml-64 lg:pl-20 mt-36 lg:mt-0">
     <!-- Filtrado -->
     <div class="pb-10 flex justify-center">
       <h1 class="text-2xl font-bold capitalize">{{ selectedCategory ? selectedCategory : 'Todos los Productos' }}</h1>
@@ -155,7 +156,11 @@
         <card-product :product="product" />
       </div>
     </div>
+
+
   </div>
+
+
 </template>
 
 <script>
@@ -238,14 +243,20 @@ export default {
 
 
       return filtered;
+    },
+    showSuccessMessage() {
+      return this.$store.state.cart.showSuccessMessage;
     }
   },
   mounted() {
-
     this.fetchProducts();
+    setTimeout(() => {
+      this.$store.commit('hideSuccessMessage');
+    }, 5000); // Oculta el mensaje después de 5 segundos
   },
   async created() {
     this.products = await getProducts();
+
   },
   methods: {
     async fetchProducts() {

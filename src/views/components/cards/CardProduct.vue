@@ -1,7 +1,7 @@
 import { default } from '../../Product.vue';
 <template>
     <div
-        class=" bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 hover:drop-shadow-2xl">
+        class=" bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 hover:shadow-lg">
         <router-link :to="`/Products/${product.id}`" class="flex justify-center">
             <img class="p-2 rounded-t-lg product-image" :src="product.thumbnail" :alt="product.title" />
         </router-link>
@@ -57,6 +57,7 @@ export default {
         },
         addToCartClicked() {
             this.$store.dispatch('addProductToCart', this.product);
+            this.$emit('productAddedToCart');
         }
     },
 

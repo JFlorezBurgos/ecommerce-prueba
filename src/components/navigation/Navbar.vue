@@ -2,7 +2,7 @@
 
 
 
-  <nav class=" bg-violet-500 border-gray-200 dark:bg-gray-900">
+  <nav class="fixed w-screen bg-violet-500 border-gray-200 dark:bg-gray-900 top-0">
     <div class="flex  items-center justify-around  p-4">
 
       <router-link to="/" class="flex items-center space-x-3 rtl:space-x-reverse">
@@ -21,6 +21,8 @@
     </div>
     
   </nav>
+
+  
 
 </template>
 
